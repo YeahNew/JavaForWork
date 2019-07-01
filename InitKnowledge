@@ -1,0 +1,168 @@
+类初始化过程：
+（1）一个类要创建实例需要先加载并初始化该类
+（2）main()方法所在的类需要先加载和初始化
+（3）一个子类要初始化需要先初始化父类：
+     <clinit>()方法由静态类变量显示赋值代码和静态代码块组成
+     静态类变量显示赋值代码块和静态代码块从上向下顺序执行，注意声明不包括！！
+     一个类初始化就是执行<clinit>()方法，且只执行一次。
+
+
+实例初始化过程：
+（1）<init>()可能重载有多个，有几个构造器就有几个<init>()方法
+     <init>()方法由非静态实例变量显示赋值代码块和非静态代码块、对应的构造器代码组成
+     非静态实例变量显示赋值代码块和非静态代码块从上往下顺序执行，对应的构造器代码最后执行
+     每次创建实例对象，调用对应构造器，执行的就是对应的<init>方法
+     <init>方法首行是super()或者super(实参列表)，即对应父类的<init>()方法
+
+
+方法的重写：
+   final方法
+   静态方法
+   private等子类中不可见方法
+
+对象的多态性：
+  子类如果重写了父类的方法，通过子类对象调用的一定是子类重写过的方法
+  非静态方法默认调用的对象是this
+  this在构造器中就是正在创建的对象
+
+=====================================================================================
+package JavaSE.InitKnowledge;
+
+/**
+ * ClassName: Father
+ * Company:华中科技大学电气学院
+ * date: 2019/7/1 19:53
+ * author： YEXIN
+ * version： 1.0
+ * since： JDK 1.8
+ * Description:父类
+ */
+
+/**
+ * 父类的初始化：<clinit>:
+ * (1)j = method();
+ * (2)父类的静态代码块
+ *
+ * 父类的实例化方法：
+ *  * （1）super()（最前）
+ *  * （2）i = test();
+ *  * （3）父类的非静态代码块
+ *  * （4）父类的无参构造（最后）
+ *  *
+ *  * 非静态方法前面其实有一个默认的对象this
+ *  * this在构造器（或<init>）它表示的是正在创建的对象，因为这里是在创建Son对象，所以
+ *  * test()执行的是子类重写的代码（面向对象多态）
+ *  *
+ *  * 这里i=test()执行的是子类重写的test()方法
+ */
+public class Father {
+    private int i = test();
+    private static int j = method();
+
+    public Father() {
+        System.out.println("(2)");;
+    }
+    static {
+        System.out.println("(1)");
+    }
+    //非静态代码块
+    {
+        System.out.println("(3)");
+    }
+
+    public int test(){
+        System.out.println("(4)");
+        return 1;
+    }
+    public static int method(){
+        System.out.println("(5)");
+        return 1;
+    }
+}
+--------------------------------------------------------------------------------------
+package JavaSE.InitKnowledge;
+
+/**
+ * ClassName: Son
+ * Company:华中科技大学电气学院
+ * date: 2019/7/1 19:59
+ * author： YEXIN
+ * version： 1.0
+ * since： JDK 1.8
+ * Description:
+ */
+
+/*
+ * 子类的初始化<clinit>：
+ * （1）j = method();
+ * （2）子类的静态代码块
+ *
+ * 先初始化父类：(5)(1)
+ * 初始化子类：（10）(6)
+ *
+ * 子类的实例化方法<init>：
+ * （1）super()（最前）      （9）（3）（2）
+ * （2）i = test();    （9）
+ * （3）子类的非静态代码块    （8）
+ * （4）子类的无参构造（最后） （7）
+ *
+ * 因为创建了两个Son对象，因此实例化方法<init>执行两次
+ *
+ * （9）（3）（2）（9）（8）（7）
+ */
+public class Son extends Father {
+
+
+    private int i = test();
+
+    static {
+        System.out.println("(6)");
+    }
+
+    {
+        System.out.println("(8)");
+    }
+
+
+    Son() {
+        super();//写或不写都在，在子类构造器中一定会调用父类的构造器
+        System.out.println("(7)");
+    }
+
+    private  static int j = method();
+
+
+    @Override
+    public int test() {
+        System.out.println("(9)");;
+        return 1;
+    }
+
+    public static void main(String[] args) {
+        Son s1 = new Son();
+        System.out.println("----");
+        Son s2 = new Son();
+    }
+}
+===================================================================================
+结果：
+(5)
+(1)
+(6)
+(5)
+(9)
+(3)
+(2)
+(9)
+(8)
+(7)
+----
+(9)
+(3)
+(2)
+(9)
+(8)
+(7)
+
+Process finished with exit code 0
+
