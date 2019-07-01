@@ -28,3 +28,5 @@ public class OnTheVariable {
 //        k=11
     }
 }
+
+分析：理解局部变量表和操作数栈
