@@ -1,0 +1,65 @@
+形参如果是基本数据类型，
+由实参向形参传递时直接传递数据值
+
+实参是引用数据类型
+则实参向形参传递的是地址值
+方法调用完成后，栈为方法的形参开辟的区域就会销毁
+
+特殊类型：String，包装类等对象不可变性。
+
+类变量值，引用类型的变量值【例如数组的值】和字符串首先会放在堆中。
+----------------------------------------------------------------------------------
+package JavaSE.MethodParameters;
+
+import java.util.Arrays;
+
+/**
+ * ClassName: Examyexin
+ * Company:华中科技大学电气学院
+ * date: 2019/7/1 20:44
+ * author： YEXIN
+ * version： 1.0
+ * since： JDK 1.8
+ * Description:
+ */
+public class Examyexin {
+    public static void main(String[] args) {
+
+        int i = 1;//基本数据类型
+        //下面是引用类型
+        String str = "hello";
+        Integer num = 2;
+        int[] arr = {1,2,3,4,5};
+        MyData my = new MyData();
+
+        change(i,str,num,arr,my);
+        System.out.println("i="+i);
+        System.out.println("str="+str);
+        System.out.println("num="+num);
+        System.out.println("arr="+ Arrays.toString(arr));
+        System.out.println("my.a="+my.a);
+
+
+
+    }
+    public static void change(int j,String s,Integer n,int[] a,MyData m){
+        j +=1;
+        s+="world";
+        n += 1;
+        a[0] += 1;
+        m.a += 1;
+    }
+}
+
+class MyData{
+    int a =10;
+}
+=======================================================================================
+结果：
+i=1
+str=hello
+num=2
+arr=[2, 2, 3, 4, 5]
+my.a=11
+
+Process finished with exit code 0
