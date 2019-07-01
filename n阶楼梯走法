@@ -1,0 +1,93 @@
+方法调用自身的称为递归 ，利用变量的原值推到出新的值称为迭代
+
+递归：
+  优点：大问题转为小问题，可以减少代码量，精简，可读性好
+  缺点：空间浪费，递归太深容易造成溢出
+
+迭代：
+  优点：代码效率高，空间开销少
+  缺点：不够简洁，可读性好
+===============================================================================
+package JavaSE.Others;
+/**
+ * ClassName: Nstep
+ * Company:华中科技大学电气学院
+ * date: 2019/7/1 21:06
+ * author： YEXIN
+ * version： 1.0
+ * since： JDK 1.8
+ * Description:有n阶台阶，一次可以跨一步或者两步，问有多少种走法
+ * ：递归方法实现
+ *
+ * 但是效率好低；
+ */
+public class Nstep {
+
+    public int step(int n){
+        if(n<1){
+            throw new IllegalArgumentException(n+"不能小于1");
+
+        }
+        if(n == 1 || n == 2){
+            return n;
+        }
+        return step(n-1)+step(n-2);
+    }
+
+    public static void main(String[] args) {
+
+        Nstep f = new Nstep();
+
+        long start = System.currentTimeMillis();
+        System.out.println(f.step(30));
+        long end = System.currentTimeMillis();
+        System.out.println(end-start+":ms");
+    }
+}
+---------------------------------------------------------------------------------------------
+package JavaSE.Others;
+
+/**
+ * ClassName: NstepIteration
+ * Company:华中科技大学电气学院
+ * date: 2019/7/1 21:21
+ * author： YEXIN
+ * version： 1.0
+ * since： JDK 1.8
+ * Description:有n阶台阶，一次可以跨一步或者两步，问有多少种走法
+ *  ：循环迭代方法实现
+ *
+ */
+public class NstepIteration {
+    public int loop(int n){
+        if(n<1){
+            throw new IllegalArgumentException(n+"不能小于1");
+
+        }
+        if(n == 1 || n == 2){
+            return n;
+        }
+
+        int one = 2;//初始化为走到第二级台阶的走法
+        int two = 1;//初始化为走到第一级台阶的走法
+        int sum = 0;
+
+        for (int i=3;i<=n;i++){
+            //最后跨2步的走法数+最后跨1步的走法数
+            sum = two + one;
+            two = one;
+            one = sum;
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        NstepIteration f = new NstepIteration();
+
+        long start = System.currentTimeMillis();
+        System.out.println(f.loop(50));
+        long end = System.currentTimeMillis();
+        System.out.println(end-start+":ms");
+    }
+}
+----------------------------------------------------------------------------------------
