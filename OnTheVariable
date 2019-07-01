@@ -1,0 +1,30 @@
+package JavaSEForWork;
+
+/**
+ * ClassName: OnTheVariable <br/>
+ * Company:华中科技大学电气学院
+ * date: 2019/7/1 16:19<br/>
+ *
+ * author YEXIN<br />
+ * version 1.0
+ * since JDK 1.8
+ * Description: <br/>
+ */
+public class OnTheVariable {
+    public static void main(String[] args) {
+        int i =1;
+        i=i++;
+        System.out.println("i="+i);
+        int j = i++;
+        System.out.println("i="+i);
+        int k = i + ++i * i++;
+        //result
+        System.out.println("i="+i);
+        System.out.println("j="+j);
+        System.out.println("k="+k);
+//        result:
+//        i=4
+//        j=1
+//        k=11
+    }
+}
